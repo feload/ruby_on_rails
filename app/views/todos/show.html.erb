@@ -1,3 +1,11 @@
 <h1>Todo</h1>
-<%= @todo.name %>
-<%= @todo.description %>
+
+<%= link_to "Get back to the todos list.", todos_path %>
+
+<p>
+  <%= @todo.name %><br>
+  <%= @todo.description %>
+</p>
+
+<%= link_to "Edit", edit_todo_path(@todo) %>
+<%= link_to "Delete", @todo, :method => "delete", :data => { :confirm => "Are you sure?" } %>

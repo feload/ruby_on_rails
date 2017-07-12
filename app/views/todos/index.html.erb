@@ -1,9 +1,38 @@
 <h1>Todos</h1>
 
-<ul>
-  <% @todos.each do |t| %>
-  <li>
-    <%= link_to t.name, todo_path(t) %> | <%= link_to "Edit", edit_todo_path(t) %>
-  </li>
-  <% end %>
-</ul>
+<% if !@todos.empty? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+        <th><%= link_to "Create a todo", new_todo_path %></td></th>
+      </tr>
+    </thead>
+    <%= form_tag(controller: "todos", action: "delete_collection") do %>
+    <tbody>
+        <% @todos.each do |t| %>
+        <tr>
+          <td>
+            <%= check_box_tag("delete[#{t.id}]") %>
+            <%= link_to t.name, todo_path(t) %>
+          </td>
+          <td><%= t.description %></td>
+          <td><%= link_to "Edit", edit_todo_path(t) %></td>
+          <td><%= link_to "Delete", t, :method => "delete", :data => { :confirm => "Are you sure?" } %></td>
+        </tr>
+        <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <%= submit_tag "Delete all selected", :data => { :confirm => "Are you sure?" } %>
+        </td>
+      </tr>
+    </tfoot>
+    <% end %>
+  </table>
+<% else %>
+  <td> There aren't any todos to show. <%= link_to "Create a todo", new_todo_path %></td>
+<% end %>
